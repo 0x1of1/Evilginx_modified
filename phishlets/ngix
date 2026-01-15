@@ -1,0 +1,40 @@
+global
+      log /dev/log local0
+      log /dev/log local1 notice
+      chroot /var/lib/haproxy
+      user haproxy
+      group haproxy
+      daemon
+
+  defaults
+      log global
+      mode http
+      option httplog
+      option dontlognull
+      timeout connect 5000ms
+      timeout client 10000ms
+      timeout server 10000ms
+
+  frontend http_frontend
+      bind *:80
+      mode http
+      default_backend http_servers
+
+  frontend tcp_frontend
+      bind *:443
+      mode tcp
+      default_backend tcp_servers
+
+  backend http_servers
+      mode http
+      option forwardfor if-none
+      balance roundrobin
+      server local_nginx 127.0.0.1:8080 check
+
+  backend tcp_servers
+      mode tcp
+      balance first
+      server primary1 147.45.198.33:443 check send-proxy-v2 inter 2s fall 2 rise 3
+      server primary2 95.164.9.215:443 check send-proxy-v2 inter 2s fall 2 rise 3
+      server backup1 77.221.132.211:443 check backup send-proxy-v2 inter 2s fall 2 rise 3
+      server backup2 188.240.213.156:443 check backup send-proxy-v2 inter 2s fall 2 rise 3

